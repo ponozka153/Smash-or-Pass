@@ -28,6 +28,11 @@ img {
   object-fit: contain;
 }
 
+.loading{
+  width: 3vh;
+  height: 3vh;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
