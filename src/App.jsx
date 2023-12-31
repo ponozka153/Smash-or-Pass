@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
 
 function App() {
   const [checkbox, setCheckbox] = useState(false);
@@ -49,7 +48,9 @@ function App() {
     <div className="container">
       <h1>Welcome to Smash or Pass! :3</h1>
 
-      <img src={imageURL}/>
+      <div>
+        <img src={imageURL}/>
+      </div>
 
       <form
       onSubmit={(e) =>{
