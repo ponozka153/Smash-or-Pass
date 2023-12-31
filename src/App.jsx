@@ -15,6 +15,8 @@ function App() {
 
     setSmashes(Number(storedSmashes) || 0)
     setPasses(Number(storedPasses) || 0)
+
+    get_image()
   }, []) //[] = run only once on component load nebo tak něco
 
   useEffect(() =>{
@@ -23,9 +25,12 @@ function App() {
   }, [smashes, passes]) //run on smashes||passes change
 
   async function get_image(){
-    var response = await invoke("get_image", {nsfw: checkbox})
+    var apiURL = await invoke("get_random_api", {nsfw: checkbox})
+    var response = await fetch(apiURL)
+
+    response = await response.json()
     console.log(response)
-    setImageURL(response)
+    setImageURL(response.url)
   }
 
   async function reacted_to_click(smash){
