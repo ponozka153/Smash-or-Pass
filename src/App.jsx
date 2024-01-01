@@ -8,6 +8,8 @@ function App() {
   const [smashes, setSmashes] = useState("");
   const [passes, setPasses] = useState("");
   const [loading, setLoading] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
+  const [debug, setDebug] = useState("");
 
 
   useEffect(() =>{
@@ -26,19 +28,50 @@ function App() {
     localStorage.setItem("passes", passes)
   }, [smashes, passes]) //run on smashes||passes change
 
+  //for debuging 
+  useEffect(() =>{ 
+    setDebug(imageURL)
+  }, [imageURL])
+
+  document.onkeydown = (e) =>{
+    if(e.ctrlKey && e.shiftKey && e.key == "D"){
+      setDebugMode(!debugMode)
+    }
+  }
+ //end of for debuging
+
   async function get_image(){
     setLoading(true)
+    
     var apiEndpoint = await invoke("get_random_api", {nsfw: checkbox})
     var corsProxyURL = "https://michalho.eu/proxy/?url=" //Has to use proxy protože jedno api je http takže cors se může posrat, will also be on github
+    var imageProxy =  "https://michalho.eu/proxy/image.php?url=" //Has to be used if the img src is in https://konachan.com cause for some reason Edge explorer wont render the picture in <img>, bruh
     console.log(apiEndpoint)
     var apiURL = apiEndpoint[0]
 
-    var response = await fetch(corsProxyURL + apiURL)
+    var response;
+
+    apiURL.includes("api.nekos.fun") || apiURL.includes("purrbot.site") ? response = await fetch(corsProxyURL + apiURL) : response = await fetch(apiURL)
     response = await response.json()
     console.log(response)
 
     if(apiEndpoint[1] === "images[0] > url"){
       setImageURL(response.images[0].url)
+      setLoading(false)
+      return
+    }
+    if(apiEndpoint[1] === "results[0] > url"){
+      setImageURL(response.results[0].url)
+      setLoading(false)
+      return
+    }
+    if(apiEndpoint[1] === "file_url"){
+      setImageURL(`https://${response["file_url"]}`)
+      setLoading(false)
+      return
+    }
+    if(response[apiEndpoint[1]].includes("https://konachan.com")){
+      setImageURL(imageProxy + response[apiEndpoint[1]])
       setLoading(false)
       return
     }
@@ -91,6 +124,10 @@ function App() {
         <p>Total Passes: {passes}</p>
 
       </form>
+      {debugMode ? (
+        <p>{debug}</p>
+      ) : (<></>)}
+      
 
     </div>
   );
