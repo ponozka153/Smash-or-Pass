@@ -29,8 +29,17 @@ img {
 }
 
 .loading{
-  width: 3vh;
+  width: 3vw;
   height: 3vh;
+}
+
+.upload{
+  position: fixed;
+  bottom: 1vh;
+  right: 1vw;
+  width: 10vw;
+  height: 10vh;
+  cursor: pointer;
 }
 
 a {

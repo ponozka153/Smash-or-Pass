@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import Modal from "./component/modal.jsx";
 import loadingSVG from "./assets/loading.svg";
+import uploadSVG from "./assets/upload-main.svg"
 
 function App() {
   const [checkbox, setCheckbox] = useState(false);
@@ -9,6 +11,7 @@ function App() {
   const [passes, setPasses] = useState("");
   const [loading, setLoading] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
+  const [modal, setModal] = useState(false);
   const [debug, setDebug] = useState("");
 
 
@@ -70,7 +73,7 @@ function App() {
       setLoading(false)
       return
     }
-    if(response[apiEndpoint[1]].includes("https://konachan.com")){
+    if(response[apiEndpoint[1]].includes("https://konachan.com") || response[apiEndpoint[1]].includes("https://files.yande.re")){
       setImageURL(imageProxy + response[apiEndpoint[1]])
       setLoading(false)
       return
@@ -123,12 +126,17 @@ function App() {
         <p>Total Smashes: {smashes}</p>
         <p>Total Passes: {passes}</p>
 
+        <a onClick={() => setModal(!modal)}>
+          <img src={uploadSVG} className="upload" title="Upload an Image"></img>
+        </a>
+
       </form>
+      
+      {modal ? (<Modal toggleModal={() => setModal(!modal)}></Modal>) : (<></>)}
+
       {debugMode ? (
         <p>{debug}</p>
       ) : (<></>)}
-      
-
     </div>
   );
 }

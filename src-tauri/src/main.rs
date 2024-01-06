@@ -25,18 +25,31 @@ fn let_him_cook(choosen_endpoint: Vec<&str>) -> (String, String){
 
     return (result_string, result_endpointdongle)
 }
-
+//TODO: Add a low chance on getting the my api endpoint cause there wont be much, also with a return that will be nothing
 #[tauri::command]
 fn get_random_api(nsfw: bool) -> (String, String){
     let sfw_apiendpoints = vec!["https://api.waifu.pics/sfw/waifu", "https://api.waifu.pics/sfw/neko", "https://api.waifu.im/search?included_tags=waifu&limit=1", "https://api.waifu.im/search?included_tags=maid&limit=1", "https://api.waifu.im/search?included_tags=oppai&limit=1", "https://api.waifu.im/search?included_tags=selfies&limit=1", "https://api.waifu.im/search?included_tags=uniform&limit=1", "http://api.nekos.fun:8080/api/neko", "https://pic.re/image.json", "https://nekos.best/api/v2/waifu", "https://nekos.best/api/v2/neko", "https://purrbot.site/api/img/sfw/neko/img", "https://hmtai.hatsunia.cfd/v2/neko_arts", "https://hmtai.hatsunia.cfd/v2/coffee_arts", "https://nekos.life/api/neko", "https://nekos.life/api/v2/img/neko", "https://nekos.life/api/v2/img/ngif", "https://nekobot.xyz/api/image?type=neko", "https://nekobot.xyz/api/image?type=coffee"];
     let nsfw_apiendpoints = vec!["https://api.waifu.pics/nsfw/waifu", "https://api.waifu.pics/nsfw/neko", "https://api.waifu.pics/nsfw/trap", "https://api.waifu.im/search?included_tags=hentai&limit=1", "https://api.waifu.im/search?included_tags=ero&limit=1", "https://api.waifu.im/search?included_tags=ecchi&limit=1", "https://api.waifu.im/search?included_tags=milf&limit=1", "http://api.nekos.fun:8080/api/hentai", "http://api.nekos.fun:8080/api/lesbian", "http://api.nekos.fun:8080/api/lewd", "http://api.nekos.fun:8080/api/belle", "https://purrbot.site/api/img/nsfw/neko/img", "https://hmtai.hatsunia.cfd/v2/hentai", "https://hmtai.hatsunia.cfd/v2/ero", "https://hmtai.hatsunia.cfd/v2/yuri", "https://hmtai.hatsunia.cfd/v2/pantsu", "https://hmtai.hatsunia.cfd/v2/uniform", "https://hmtai.hatsunia.cfd/v2/thighs", "https://hmtai.hatsunia.cfd/v2/boobs", "https://hmtai.hatsunia.cfd/v2/nsfwNeko", "https://nekobot.xyz/api/image?type=hass", "https://nekobot.xyz/api/image?type=hmidriff", "https://nekobot.xyz/api/image?type=hneko", "https://nekobot.xyz/api/image?type=hthigh"];
     let mut all_apiendpoints = sfw_apiendpoints.clone();
     all_apiendpoints.extend(nsfw_apiendpoints);
+    let random_num = rand::thread_rng().gen_range(0..16); //cause 0..16 = 0-15 asi xd
+    let lower_then_num = random_num < 15;
+
+    println!("{}", random_num);
 
     if !nsfw {
-        return let_him_cook(sfw_apiendpoints);
+        if lower_then_num {
+            return let_him_cook(sfw_apiendpoints);
+        } else {
+            return (String::from("https://michalho.eu/randompic/?type=sfw"), String::from("url"));
+        }
+        
     } else {
-        return let_him_cook(all_apiendpoints);
+        if lower_then_num {
+            return let_him_cook(all_apiendpoints);
+        } else {
+            return (String::from("https://michalho.eu/randompic/?type=nsfw"), String::from("url"))
+        }
     }
 }
 
