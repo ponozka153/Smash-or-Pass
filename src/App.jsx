@@ -47,8 +47,8 @@ function App() {
     setLoading(true)
     
     var apiEndpoint = await invoke("get_random_api", {nsfw: checkbox})
-    var corsProxyURL = "https://michalho.eu/proxy/?url=" //Has to use proxy protože jedno api je http takže cors se může posrat, will also be on github
-    var imageProxy =  "https://michalho.eu/proxy/image.php?url=" //Has to be used if the img src is in https://konachan.com cause for some reason Edge explorer wont render the picture in <img>, bruh
+    var corsProxyURL = "https://michalho.cz/proxy/?url=" //Has to use proxy protože jedno api je http takže cors se může posrat, will also be on github
+    var imageProxy =  "https://michalho.cz/proxy/image.php?url=" //Has to be used if the img src is in https://konachan.com cause for some reason Edge explorer wont render the picture in <img>, bruh
     console.log(apiEndpoint)
     var apiURL = apiEndpoint[0]
 

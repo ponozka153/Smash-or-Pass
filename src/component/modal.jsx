@@ -33,7 +33,7 @@ function Modal({ toggleModal }) {
       console.log(pair[0] + ', ' + pair[1]);
     }
 
-    const response = await fetch("https://michalho.eu/randompic/upload/", {
+    const response = await fetch("https://michalho.cz/randompic/upload/", {
       method: "POST",
       body: formData,
     });
@@ -41,6 +41,8 @@ function Modal({ toggleModal }) {
     const responseText = await response.text()
 
     setServerResponse(responseText);
+    setFile("");
+    setPreviewImage(null);
     console.log(response)
   }
   return (
